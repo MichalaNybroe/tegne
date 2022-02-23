@@ -15,7 +15,7 @@
 
   function random() {
     const ran = Math.random();
-    return Math.round(ran*256);
+    return Math.round(ran * 256);
   }
 
   function color() {
@@ -29,23 +29,47 @@
   function branch(length, angle, scale) {
     color();
     cx.fillRect(0, 0, 2, length);
-    if (length<8){
+    if (length < 8) {
       return;
     }
     cx.save();
     cx.translate(0, length);
     cx.rotate(-angle);
 
-    branch(length*scale, angle, scale);
-    cx.rotate(2*angle);
-    branch(length*scale, angle,scale);
+    branch(length * scale, angle, scale);
+    cx.rotate(2 * angle);
+    branch(length * scale, angle, scale);
 
     cx.restore();
   }
 
-  cx.translate(300, 0);
-  branch(80, 0.5, 0.8);
+  function sleep(ms) {
+    return new Promise(func => setTimeout(func, ms));
+  }
 
+  //vent til et eller andet er gjort async
+  const doSomethingAsync = async () => {
+    console.log("11111 før sov");
+    await sleep(1000);
+    branch(80, 0.5, 0.8);
+  }
+
+
+
+
+  const kaldAsync = async () => {
+    while (true) {
+      await doSomethingAsync();
+    }
+  }
+
+  cx.translate(300, 0);
+  kaldAsync();
+
+  function play() {
+    cx.translate(300, 0);
+    branch(80, 0.5, 0.8)
+  }
 </script>
 </body>
 
